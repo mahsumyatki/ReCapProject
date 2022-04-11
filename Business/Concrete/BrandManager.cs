@@ -33,14 +33,19 @@ namespace Business.Concrete
             return new SuccessResult("Brand is deleted.");
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            if (DateTime.Now.Hour == 14)
+            {
+                return new ErrorDataResult<List<Brand>>("Brands cannot listed");
+            }
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), "Brands are listed.");
+
         }
 
-        public Brand GetById(int Id)
+        public IDataResult<Brand> GetById(int Id)
         {
-            return _brandDal.GetById(b => b.Id == Id);
+            return new SuccessDataResult<Brand>(_brandDal.GetById(co => co.Id == Id));
         }
 
         public IResult Update(Brand brand)

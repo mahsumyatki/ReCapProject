@@ -33,14 +33,18 @@ namespace Business.Concrete
             return new SuccessResult("Color is deleted.");
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _colorDal.GetAll();
+            if (DateTime.Now.Hour==14)
+            {
+                return new ErrorDataResult<List<Color>>("Colors cannot listed");
+            }
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(),"Colors are listed.");
         }
 
-        public Color GetById(int id)
+        public IDataResult<Color> GetById(int id)
         {
-            return _colorDal.GetById(co => co.Id == id);
+            return new SuccessDataResult<Color>( _colorDal.GetById(co => co.Id == id));
         }
 
         public IResult Update(Color color)
