@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -16,14 +17,20 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
+            if (color.ColorName.Length < 2)
+            {
+                return new ErrorResult("Color name invalid");
+            }
             _colorDal.Add(color);
+            return new SuccessResult("Color is added");
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
+            return new SuccessResult("Color is deleted.");
         }
 
         public List<Color> GetAll()
@@ -36,9 +43,14 @@ namespace Business.Concrete
             return _colorDal.GetById(co => co.Id == id);
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
+            if (DateTime.Now.Hour == 23)
+            {
+                return new ErrorResult("System in maintenance");
+            }
             _colorDal.Update(color);
+            return new SuccessResult("Car is updated.");
         }
     }
 }
