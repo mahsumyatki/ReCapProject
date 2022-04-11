@@ -12,6 +12,17 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
+    /*
+     * 200 - İstek başarılı oldu.
+     * 201 - İstek başarılı oldu ve kaynak oluştu.
+     * 301 - Kaynağın kalıcı olarak taşındığını belirtir ve başka bir URL'e yönlendirir.
+     * 400 - İstek başarısız oldu.
+     * 401 - İstemci kaynağa erişmek için yetkili değil.
+     * 403 - Bu kaynağa erişim yasak.
+     * 404 - Kaynak bulunamadı.
+     * 500 - Sunucuda bir hata oluştu.
+     * 502 - Kaynak sunucusuna erişilemedi.
+     */
     [Route("api/[controller]")]
     [ApiController]
     public class CarsController : ControllerBase
@@ -34,6 +45,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getcardetails")]
+        public IActionResult GetCarDetails()
+        {
+            var result = _carService.GetCarDetails();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpGet("getbyid")]
         public IActionResult GetById(int id)
         {
@@ -43,6 +65,28 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
+        }
+
+        [HttpGet("getbybrandid")]
+        public IActionResult GetByBrandId(int id)
+        {
+            var result = _carService.GetByBrandId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getbycolorid")]
+        public IActionResult GetByColorId(int id)
+        {
+            var result = _carService.GetByColorId(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest();
         }
 
         [HttpPost("add")]
@@ -55,5 +99,26 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+        [HttpPost("update")]
+        public IActionResult Update(Car car)
+        {
+            var result = _carService.Update(car);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(Car car)
+        {
+            var result = _carService.Delete(car);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }        
     }
 }
