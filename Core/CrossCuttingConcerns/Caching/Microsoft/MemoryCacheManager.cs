@@ -12,7 +12,6 @@ namespace Core.CrossCuttingConcerns.Caching.Microsoft
     public class MemoryCacheManager : ICacheManager
     {
         IMemoryCache _memoryCache;
-        private int _duration;
 
         public MemoryCacheManager()
         {
