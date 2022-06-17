@@ -2,6 +2,7 @@
 using Business.BusinessAspects.Autofac;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspect.Autofac.Caching;
+using Core.Aspect.Autofac.Transaction;
 using Core.Aspect.Autofac.Validation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
@@ -80,6 +81,19 @@ namespace Business.Concrete
             }
             _carDal.Update(car);
             return new SuccessResult("Car is updated.");
+        }
+
+        //For this aspect, the code is written in a ridiculous way because there is no suitable example in the project.
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            Add(car);
+            if (car.ModelYear<2018)
+            {
+                throw new Exception();
+            }
+            Add(car);
+            return null;
         }
     }
 }
