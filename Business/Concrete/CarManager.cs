@@ -27,12 +27,6 @@ namespace Business.Concrete
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-
-            ValidationTool.Validate(new CarValidator(),car);
-            if (car.Name.Length<2)
-            {
-                return new ErrorResult("Car name invalid");
-            }
             _carDal.Add(car);
             return new SuccessResult("Car is added");
         }
