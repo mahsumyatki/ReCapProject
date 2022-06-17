@@ -62,7 +62,7 @@ namespace Business.Concrete
 
         public IDataResult<CarImage> GetById(int id)
         {
-            _carImageDal.GetById(ci=>ci.Id==id);
+            _carImageDal.Get(ci=>ci.Id==id);
             return new SuccessDataResult<CarImage>();
         }
 
